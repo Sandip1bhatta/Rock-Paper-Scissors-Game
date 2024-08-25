@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rock Paper Scissors</title>
+</head>
+<body>
+  <p>Rock Paper Scissors Games</p>
+
+  <button onclick="
+  playGame('Rock');
+  ">Rock</button>
+  
+  <button onclick="
+  playGame('Paper');
+  ">Paper</button>
+
+  <button onclick="
+  playGame('Scissors');
+  ">Scissors</button>
+
+  <button onclick="
+    score.wins= 0;
+    score.losses= 0;
+    score.tie= 0;
+    localStorage.removeItem('score');
+  ">Reset</button>
+
+  <script>
+    let score = JSON.parse(localStorage.getItem('score'))|| {
+      wins: 0,
+      losses: 0,
+      tie: 0,
+    };
+    function playGame(playerMove){
+      const computeMove = pickComputerMove();
+      let result = '';
+      if(computeMove === playerMove){
+        score.tie++;
+        result = 'Tie';
+      } else if (computeMove === 'Paper'|| computeMove === 'Scissors'|| computeMove === 'Rock'){
+          score.wins++;
+          result = 'You win';
+      } else {
+          score.losses++;
+          result ='You lose';
+      }
+      localStorage.setItem('score', JSON.stringify(score));
+      alert(`You pick ${playerMove}. computer pick ${computeMove}. ${result} 
+      Wins: ${score.wins} Losses: ${score.losses} Tie: ${score.tie}
+      `);
+    }
+    function pickComputerMove() {
+      let computeMove = '';
+      const randomNumber = Math.random();
+      if(randomNumber >= 0 && randomNumber < 1/3) {
+        computeMove = 'Rock';
+      } else if(randomNumber >= 1/3 && randomNumber < 2/3) {
+        computeMove ='Paper';
+      } else if(randomNumber >= 2/3 && randomNumber < 1) {
+        computeMove = 'Scissors';
+      }
+      return computeMove;
+    }
+  </script>
+</body>
+</html>
